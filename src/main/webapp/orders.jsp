@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -27,6 +29,8 @@
 <body>
 
 <c:import url="includes/header.jsp" />
+<c:set var="currentDate" value="<%= new java.util.Date() %>" />
+<c:set var="sevenDaysAgo" value="<%= new java.util.Date(System.currentTimeMillis() - (7L * 24 * 60 * 60 * 1000)) %>" />
 
 <!-- Start Hero Section -->
 <div class="hero">
@@ -111,20 +115,23 @@
 										<button type="button" class="btn-order" onclick="confirmAction(${order.id}, 'cancelOrder')">Hủy đơn</button>
 									</td>
 								</c:if>
-								<c:if test="${order.status == 'DELIVERED' || order.status == 'ACCEPTED' || order.status == 'FEEDBACKED'}">
-									<td>
-										<button type="button" class="btn-order" onclick="confirmAction(${order.id}, 'refundOrder')">Hoàn đơn</button>
-									</td>
-								</c:if>
-								<c:if test="${order.status == 'DELIVERED'}">
-									<td>
-										<button type="button" class="btn-order" onclick="confirmAction(${order.id}, 'acceptOrder')">Chấp nhận</button>
-									</td>
-								</c:if>
-								<c:if test="${order.status == 'ACCEPTED'}">
-									<td>
-										<button type="button" class="btn-order" onclick="feedbackOrder(${order.id}, ${order.customer.personID})">Đánh giá</button>
-									</td>
+
+								<c:if test="${order.orderDate ge sevenDaysAgo}">
+									<c:if test="${order.status == 'DELIVERED' || order.status == 'ACCEPTED' || order.status == 'FEEDBACKED'}">
+										<td>
+											<button type="button" class="btn-order" onclick="confirmAction(${order.id}, 'refundOrder')">Hoàn đơn</button>
+										</td>
+									</c:if>
+									<c:if test="${order.status == 'DELIVERED'}">
+										<td>
+											<button type="button" class="btn-order" onclick="confirmAction(${order.id}, 'acceptOrder')">Chấp nhận</button>
+										</td>
+									</c:if>
+									<c:if test="${order.status == 'ACCEPTED'}">
+										<td>
+											<button type="button" class="btn-order" onclick="feedbackOrder(${order.id}, ${order.customer.personID})">Đánh giá</button>
+										</td>
+									</c:if>
 								</c:if>
 							</tr>
 							</tbody>

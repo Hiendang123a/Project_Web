@@ -1,10 +1,7 @@
 package controller;
 
 import ENumeration.EOrderStatus;
-import business.Customer;
-import business.Feedback;
-import business.ImageFeedback;
-import business.Order;
+import business.*;
 import data.CustomerDB;
 import data.OrderDB;
 import org.json.JSONArray;
@@ -17,14 +14,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 @WebServlet(name = "ManageOrdersServlet", value = "/manageOrdersServlet")
 public class ManageOrdersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -7); // Trừ đi 7 ngày
+        Date date7DaysAgo = calendar.getTime();
+        request.setAttribute("date7DaysAgo", date7DaysAgo);
+
         String action = request.getParameter("action");
         if ("loadOrders".equals(action))
         {
@@ -71,6 +71,7 @@ public class ManageOrdersServlet extends HttpServlet {
             } else {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
+            return;
         }
 
         if ("refundOrder".equals(action)) {
@@ -84,6 +85,7 @@ public class ManageOrdersServlet extends HttpServlet {
             } else {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
+            return;
         }
 
         if ("acceptOrder".equals(action)) {
@@ -97,6 +99,7 @@ public class ManageOrdersServlet extends HttpServlet {
             } else {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
+            return;
         }
 
         // Đọc JSON từ request
@@ -111,7 +114,6 @@ public class ManageOrdersServlet extends HttpServlet {
         // Parse JSON thành đối tượng JSONObject
         String json = jsonBuilder.toString();
         JSONObject feedbackData = new JSONObject(json);
-
         // Lấy dữ liệu từ JSONObject
         action = feedbackData.getString("action");
         if ("feedbackOrder".equals(action)) {

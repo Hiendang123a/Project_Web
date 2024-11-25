@@ -48,6 +48,11 @@ function selectIcon(selectedIcon, value) {
 let description = "";
 
 function feedbackOrder(customerId, orderId) {
+    if (rate === 0) {
+        alert("Bạn chưa chọn mức độ hài lòng!");
+        return; // Dừng thực hiện hàm
+    }
+
     const textFeedback = document.getElementById('textFeedback');
     description = textFeedback ? textFeedback.value : "";
 
@@ -71,7 +76,7 @@ function feedbackOrder(customerId, orderId) {
         .then(data => {
             console.log('Success:', data);
             alert('Gửi phản hồi thành công!');
-            window.location.href = 'manageOrdersServlet';
+            window.location.href = 'manageOrdersServlet?action=loadOrders';
         })
         .catch(error => {
             console.error('Error:', error);
