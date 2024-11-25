@@ -31,11 +31,17 @@ public class Feedback implements Serializable {
 
     }
 
-    public Feedback(Customer customer, Order order, int rate, String description) {
+    public Feedback(Customer customer, Order order, int rate, String description, List<ImageFeedback> imageFeedbacks) {
         this.customer = customer;
         this.order = order;
         this.rate = rate;
         this.description = description;
+
+        if (imageFeedbacks != null) {
+            for (ImageFeedback imageFeedback : imageFeedbacks) {
+                addImageFeedback(imageFeedback);
+            }
+        }
     }
 
     public Long getId() {

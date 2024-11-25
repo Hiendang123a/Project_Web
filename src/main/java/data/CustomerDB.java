@@ -26,7 +26,7 @@ public class CustomerDB {
             em.close();
         }
     }
-    public static Customer getCustomer(String customerID) {
+    public static Customer getCustomer(Long customerID) {
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
         String qString = "SELECT c FROM Customer c where c.personID = :customerID";
         TypedQuery<Customer> q = em.createQuery(qString, Customer.class);

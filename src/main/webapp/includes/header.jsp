@@ -44,7 +44,7 @@
         <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
           <li><a class="nav-link" href="#"><img src="images/user.svg"></a></li>
           <li><a class="nav-link" href="cart.jsp"><img src="images/cart.svg"></a></li>
-          <li><a class="nav-link" href="orders.jsp"><img src="images/orders.svg"></a></li>
+          <li><a class="nav-link" href="manageOrdersServlet?action=loadOrders"><img src="images/orders.svg" alt="Orders"></a></li>
         </ul>
       </div>
     </div>
